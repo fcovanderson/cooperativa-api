@@ -29,6 +29,9 @@ public class Pauta implements Serializable{
 	
 	@Column(name="DESCRICAO")
 	private String descricao;
+	
+	@Column(name="CODIGO")
+	private String codigo;
 
 	public Pauta(String descricao) {
 		super();
