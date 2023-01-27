@@ -24,7 +24,7 @@ public class PautaValidator implements EntityValidator<Pauta>{
 
     private void validarPautaExistente(Pauta pauta){
     	 Pauta pautaQuery = new Pauta();
-    	 pautaQuery.setCodigo(pautaQuery.getCodigo());
+    	 pautaQuery.setCodigo(pauta.getCodigo());
 		 ExampleMatcher caseInsensitiveExampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
 		 Example<Pauta> example = Example.of(pautaQuery, caseInsensitiveExampleMatcher);
 		 Optional<Pauta> atual = pautaRepository.findOne(example);

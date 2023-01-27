@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ntconsult.sicredicooperativa.api.dto.form.PautaForm;
+import com.ntconsult.sicredicooperativa.domain.entity.Pauta;
 import com.ntconsult.sicredicooperativa.domain.service.PautaService;
 
 import lombok.Getter;
@@ -23,8 +24,8 @@ public class PautaController {
 	private PautaService pautaService;
 
 	@PostMapping
-	public ResponseEntity<Object> salvarFalha(@Validated @RequestBody PautaForm pauta) {
-		this.pautaService.save(pauta);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<Pauta> salvarPauta(@Validated @RequestBody PautaForm pautaForm) {
+		Pauta pauta = this.pautaService.save(pautaForm);
+		return ResponseEntity.ok().body(pauta);
 	}
 }
