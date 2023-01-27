@@ -15,12 +15,25 @@ public class ResourceExceptionHandler {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<StandardError> methodArgumentNotValid(MethodArgumentNotValidException exception, HttpServletRequest request){ 
+		String mensagem = new String("Campo(s) obrigatório(s) não informado(s) ou inválido(s)");
+		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+		return ResponseEntity.status(httpStatus).body(this.standardErrorFactory(httpStatus, mensagem, exception, request));
+	}
+	
+	@ExceptionHandler(PautaExistenteException.class)
+	public ResponseEntity<StandardError> pautaExistente(PautaExistenteException exception, HttpServletRequest request){ 
+		String mensagem = new String("Entidade já cadastrada na base");
+		HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+		return ResponseEntity.status(httpStatus).body(this.standardErrorFactory(httpStatus, mensagem, exception, request));
+	}
+	
+	private StandardError standardErrorFactory(HttpStatus httpStatus, String mensagem, Exception exception, HttpServletRequest request) {
 		StandardError error = new StandardError();
 		error.setTimestamp(Instant.now());
-		error.setStatus(HttpStatus.BAD_REQUEST.value());
-		error.setError("Campo(s) obrigatório(s) não informado(s) ou inválido(s)");
+		error.setStatus(httpStatus.value());
+		error.setError(mensagem);
 		error.setMessage(exception.getMessage());
 		error.setPath(request.getRequestURI());
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+		return error;
 	}
 }

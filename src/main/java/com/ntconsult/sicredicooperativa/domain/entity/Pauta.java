@@ -32,9 +32,18 @@ public class Pauta implements Serializable{
 	
 	@Column(name="CODIGO")
 	private String codigo;
-
+	
+	public Pauta() {
+	}
+	
 	public Pauta(String descricao) {
 		super();
 		this.descricao = descricao;
+	}
+
+	public Pauta(String descricao, String codigo) {
+		super();
+		this.descricao = descricao;
+		this.codigo = codigo;
 	}
 }
