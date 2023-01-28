@@ -2,13 +2,20 @@ package com.ntconsult.sicredicooperativa.domain.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ntconsult.sicredicooperativa.domain.enums.StatusSessaoDeVotacaoEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -40,8 +47,16 @@ public class SessaoDeVotacao implements Serializable {
 	@Column(name="PRAZO_FECHAMENTO")
 	private Integer prazoFechamentoEmMinutos;
 	
-	@Column(name="COD_SESSAO_VOTACAO", length = 6)
+	@Column(name="CODIGO", length = 6)
 	private String codigoDaSessao;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="STATUS", length = 6)
+	private StatusSessaoDeVotacaoEnum statusSessaoDeVotacao;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="sessaoDeVotacao")
+	private List<Voto> votos;
 	
 	public SessaoDeVotacao() {
 		super();

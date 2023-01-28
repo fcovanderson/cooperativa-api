@@ -10,5 +10,8 @@ import com.ntconsult.sicredicooperativa.domain.entity.SessaoDeVotacao;
 
 @Repository
 public interface SessaoDeVotacaoRepository extends JpaRepository<SessaoDeVotacao, Long>{
+	
 	Optional<SessaoDeVotacao> findByPauta(Pauta pauta);
+	
+	Optional<SessaoDeVotacao> findByCodigoDaSessao(String codigoDaSessao);
 }

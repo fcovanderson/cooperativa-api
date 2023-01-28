@@ -3,8 +3,6 @@ package com.ntconsult.sicredicooperativa.domain.validator;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Component;
 
 import com.ntconsult.sicredicooperativa.api.dto.form.PautaForm;
@@ -23,15 +21,11 @@ public class PautaValidator implements EntityValidator<PautaForm>{
         validarPautaExistente(pauta);
     }
 
-    private void validarPautaExistente(PautaForm pauta){
-    	 Pauta pautaQuery = new Pauta();
-    	 pautaQuery.setCodigo(pauta.getCodigo());
-		 ExampleMatcher caseInsensitiveExampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
-		 Example<Pauta> example = Example.of(pautaQuery, caseInsensitiveExampleMatcher);
-		 Optional<Pauta> atual = pautaRepository.findOne(example);
+    private void validarPautaExistente(PautaForm pautaForm){
+		 Optional<Pauta> pauta = pautaRepository.findByCodigo(pautaForm.getCodigo());
 		 
-		 if(atual.isPresent()) {
-			 throw new PautaExistenteException(String.format("Já existe uma pauta cadastrada com o código %s", pauta.getCodigo()));
+		 if(pauta.isPresent()) {
+			 throw new PautaExistenteException(String.format("Já existe uma pauta cadastrada com o código %s", pautaForm.getCodigo()));
 		 }
     }
 }
