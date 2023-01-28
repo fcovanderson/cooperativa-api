@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.ntconsult.sicredicooperativa.api.dto.form.SessaoDeVotacaoForm;
 import com.ntconsult.sicredicooperativa.domain.entity.Pauta;
 import com.ntconsult.sicredicooperativa.domain.entity.SessaoDeVotacao;
+import com.ntconsult.sicredicooperativa.domain.exception.PautaNaoCadastradaException;
 import com.ntconsult.sicredicooperativa.domain.repository.PautaRepository;
 import com.ntconsult.sicredicooperativa.domain.repository.SessaoDeVotacaoJaAssociadaException;
 import com.ntconsult.sicredicooperativa.domain.repository.SessaoDeVotacaoRepository;
@@ -29,10 +30,14 @@ public class SessaoDeVotacaoValidator implements EntityValidator<SessaoDeVotacao
 
 	private void validarSessaoAssociadaParaPauta(String codigoPautaAssociada) {
 		Optional<Pauta> pauta = this.pautaRepository.findByCodigo(codigoPautaAssociada);
-		Optional<SessaoDeVotacao> sessao = this.sessaoDeVotacaoRepository.findByPauta(pauta.get());
 		
-		if (sessao.isPresent()) {
-			throw new SessaoDeVotacaoJaAssociadaException(String.format("Já existe uma sessão de votação aberta para a pauta de código %s", codigoPautaAssociada));
+		if(pauta.isPresent()) {
+			Optional<SessaoDeVotacao> sessao = this.sessaoDeVotacaoRepository.findByPauta(pauta.get());
+			if (sessao.isPresent()) {
+				throw new SessaoDeVotacaoJaAssociadaException(String.format("Já existe uma sessão de votação aberta para a pauta de código %s", codigoPautaAssociada));
+			}
+		}else {
+			throw new PautaNaoCadastradaException(String.format("A pauta de código %s precisa ser cadastrada previamente", codigoPautaAssociada));
 		}
 	}
 }

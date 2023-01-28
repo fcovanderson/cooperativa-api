@@ -50,6 +50,20 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(httpStatus).body(this.standardErrorFactory(httpStatus, mensagem, exception, request));
 	}
 	
+	@ExceptionHandler(VotoJaComputadoException.class)
+	public ResponseEntity<StandardError> pautaExistente(VotoJaComputadoException exception, HttpServletRequest request){ 
+		String mensagem = new String("Voto já computado anteriomente");
+		HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+		return ResponseEntity.status(httpStatus).body(this.standardErrorFactory(httpStatus, mensagem, exception, request));
+	}
+	
+	@ExceptionHandler(PautaNaoCadastradaException.class)
+	public ResponseEntity<StandardError> pautaExistente(PautaNaoCadastradaException exception, HttpServletRequest request){ 
+		String mensagem = new String("Pauta ainda não cadastrada");
+		HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+		return ResponseEntity.status(httpStatus).body(this.standardErrorFactory(httpStatus, mensagem, exception, request));
+	}
+	
 	private StandardError standardErrorFactory(HttpStatus httpStatus, String mensagem, Exception exception, HttpServletRequest request) {
 		StandardError error = new StandardError();
 		error.setTimestamp(Instant.now());
