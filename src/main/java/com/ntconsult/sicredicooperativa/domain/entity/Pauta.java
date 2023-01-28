@@ -2,8 +2,12 @@ package com.ntconsult.sicredicooperativa.domain.entity;
 
 import java.io.Serializable;
 
+import com.ntconsult.sicredicooperativa.domain.enums.StatusPautaEnum;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,6 +36,10 @@ public class Pauta implements Serializable{
 	
 	@Column(name="CODIGO")
 	private String codigo;
+	
+	@Column(name="STATUS")
+	@Enumerated(EnumType.STRING)
+	private StatusPautaEnum status;
 	
 	public Pauta() {
 	}

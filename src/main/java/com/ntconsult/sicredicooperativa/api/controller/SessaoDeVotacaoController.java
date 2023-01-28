@@ -3,6 +3,7 @@ package com.ntconsult.sicredicooperativa.api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,5 +27,15 @@ public class SessaoDeVotacaoController {
 	public ResponseEntity<SessaoDeVotacao> abrirSessaoDeVotacao(@Validated @RequestBody SessaoDeVotacaoForm sessaoDeVotacaoForm) {
 		SessaoDeVotacao sessaoDeVotacao = this.sessaoDeVotacaoService.save(sessaoDeVotacaoForm);
 		return ResponseEntity.ok().body(sessaoDeVotacao);
+	}
+	
+	@PostMapping("/encerrar/{codigoSessao}")
+	public ResponseEntity<SessaoDeVotacao> encerrarSessao(@PathVariable String codigoSessao) {
+		return ResponseEntity.ok().body(this.sessaoDeVotacaoService.encerrarSessao(codigoSessao));
+	}
+	
+	@PostMapping("/contabilizarVotos/{codigoSessao}")
+	public ResponseEntity<SessaoDeVotacao> contbilizarVotosSessao(@PathVariable String codigoSessao) {
+		return ResponseEntity.ok().body(this.sessaoDeVotacaoService.contabilizarVotos(codigoSessao));
 	}
 }

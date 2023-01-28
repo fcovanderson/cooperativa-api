@@ -64,6 +64,27 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(httpStatus).body(this.standardErrorFactory(httpStatus, mensagem, exception, request));
 	}
 	
+	@ExceptionHandler(SessaoDeVotacaoJaEncerradaException.class)
+	public ResponseEntity<StandardError> pautaExistente(SessaoDeVotacaoJaEncerradaException exception, HttpServletRequest request){ 
+		String mensagem = new String("A sessão de votação já se encontra encerrada");
+		HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+		return ResponseEntity.status(httpStatus).body(this.standardErrorFactory(httpStatus, mensagem, exception, request));
+	}
+	
+	@ExceptionHandler(VotosJaContabilizadosException.class)
+	public ResponseEntity<StandardError> pautaExistente(VotosJaContabilizadosException exception, HttpServletRequest request){ 
+		String mensagem = new String("Votos já contabilizados anteriormente");
+		HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+		return ResponseEntity.status(httpStatus).body(this.standardErrorFactory(httpStatus, mensagem, exception, request));
+	}
+	
+	@ExceptionHandler(SessaoDeVotacaoEmAbertoException.class)
+	public ResponseEntity<StandardError> pautaExistente(SessaoDeVotacaoEmAbertoException exception, HttpServletRequest request){ 
+		String mensagem = new String("A sessão de votação precisa ser encerrada previamente");
+		HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+		return ResponseEntity.status(httpStatus).body(this.standardErrorFactory(httpStatus, mensagem, exception, request));
+	}
+	
 	private StandardError standardErrorFactory(HttpStatus httpStatus, String mensagem, Exception exception, HttpServletRequest request) {
 		StandardError error = new StandardError();
 		error.setTimestamp(Instant.now());
