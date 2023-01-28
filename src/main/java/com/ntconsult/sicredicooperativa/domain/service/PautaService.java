@@ -9,7 +9,7 @@ import com.ntconsult.sicredicooperativa.domain.repository.PautaRepository;
 import com.ntconsult.sicredicooperativa.domain.validator.PautaValidator;
 
 @Service
-public class PautaService implements GenericService {
+public class PautaService implements GenericService<PautaForm, Pauta> {
 	
 	@Autowired 
 	private PautaRepository pautaRepository;
@@ -18,9 +18,9 @@ public class PautaService implements GenericService {
 	private PautaValidator validator;
 	
 	@Override
-	public Pauta save(PautaForm pauta) {
-		Pauta novaPauta = new Pauta(pauta.getDescricao(), pauta.getCodigo());
-		validator.validate(novaPauta);
+	public Pauta save(PautaForm pautaForm) {
+		validator.validate(pautaForm);
+		Pauta novaPauta = new Pauta(pautaForm.getDescricao(), pautaForm.getCodigo());
 		return pautaRepository.save(novaPauta);
 	}
 }

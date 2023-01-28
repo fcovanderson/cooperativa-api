@@ -8,6 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.ntconsult.sicredicooperativa.domain.repository.SessaoDeVotacaoExistenteException;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
@@ -17,6 +19,13 @@ public class ResourceExceptionHandler {
 	public ResponseEntity<StandardError> methodArgumentNotValid(MethodArgumentNotValidException exception, HttpServletRequest request){ 
 		String mensagem = new String("Campo(s) obrigatório(s) não informado(s) ou inválido(s)");
 		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+		return ResponseEntity.status(httpStatus).body(this.standardErrorFactory(httpStatus, mensagem, exception, request));
+	}
+	
+	@ExceptionHandler(SessaoDeVotacaoExistenteException.class)
+	public ResponseEntity<StandardError> pautaExistente(SessaoDeVotacaoExistenteException exception, HttpServletRequest request){ 
+		String mensagem = new String("Entidade já cadastrada na base");
+		HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 		return ResponseEntity.status(httpStatus).body(this.standardErrorFactory(httpStatus, mensagem, exception, request));
 	}
 	
