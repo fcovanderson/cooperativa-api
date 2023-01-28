@@ -9,7 +9,7 @@ import com.ntconsult.sicredicooperativa.api.dto.form.SessaoDeVotacaoForm;
 import com.ntconsult.sicredicooperativa.domain.entity.Pauta;
 import com.ntconsult.sicredicooperativa.domain.entity.SessaoDeVotacao;
 import com.ntconsult.sicredicooperativa.domain.repository.PautaRepository;
-import com.ntconsult.sicredicooperativa.domain.repository.SessaoDeVotacaoExistenteException;
+import com.ntconsult.sicredicooperativa.domain.repository.SessaoDeVotacaoJaAssociadaException;
 import com.ntconsult.sicredicooperativa.domain.repository.SessaoDeVotacaoRepository;
 
 @Component
@@ -24,15 +24,15 @@ public class SessaoDeVotacaoValidator implements EntityValidator<SessaoDeVotacao
 	
 	@Override
 	public void validate(SessaoDeVotacaoForm sessaoDeVotacaoForm) {
-		this.validarSessaoExistenteParaPauta(sessaoDeVotacaoForm.getCodigoPauta());
+		this.validarSessaoAssociadaParaPauta(sessaoDeVotacaoForm.getCodigoPauta());
 	}
 
-	private void validarSessaoExistenteParaPauta(String codigoPautaAssociada) {
-		Optional<Pauta> pauta = pautaRepository.findByCodigo(codigoPautaAssociada);
-		Optional<SessaoDeVotacao> sessao = sessaoDeVotacaoRepository.findByPauta(pauta.get());
+	private void validarSessaoAssociadaParaPauta(String codigoPautaAssociada) {
+		Optional<Pauta> pauta = this.pautaRepository.findByCodigo(codigoPautaAssociada);
+		Optional<SessaoDeVotacao> sessao = this.sessaoDeVotacaoRepository.findByPauta(pauta.get());
 		
 		if (sessao.isPresent()) {
-			throw new SessaoDeVotacaoExistenteException(String.format("Já existe uma sessão de votação aberta para a pauta de código %s", codigoPautaAssociada));
+			throw new SessaoDeVotacaoJaAssociadaException(String.format("Já existe uma sessão de votação aberta para a pauta de código %s", codigoPautaAssociada));
 		}
 	}
 }

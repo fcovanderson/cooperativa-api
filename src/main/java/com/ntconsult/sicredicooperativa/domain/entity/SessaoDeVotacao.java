@@ -51,7 +51,7 @@ public class SessaoDeVotacao implements Serializable {
 	private String codigoDaSessao;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name="STATUS", length = 6)
+	@Column(name="STATUS", length = 10)
 	private StatusSessaoDeVotacaoEnum statusSessaoDeVotacao;
 	
 	@JsonIgnore
@@ -68,5 +68,6 @@ public class SessaoDeVotacao implements Serializable {
 		this.dataHoraAbertura = dataHoraAbertura;
 		this.prazoFechamentoEmMinutos = prazoFechamentoEmMinutos == null ? 1 : prazoFechamentoEmMinutos;
 		this.codigoDaSessao = codigoDaSessao;
+		this.statusSessaoDeVotacao = StatusSessaoDeVotacaoEnum.ABERTA;
 	}
 }
