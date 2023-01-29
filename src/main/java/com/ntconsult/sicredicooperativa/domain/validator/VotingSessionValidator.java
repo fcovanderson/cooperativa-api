@@ -1,5 +1,6 @@
 package com.ntconsult.sicredicooperativa.domain.validator;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import com.ntconsult.sicredicooperativa.domain.repository.VotingSessionRepositor
  *
  */
 @Component
-public class VotingSessionValidator implements EntityValidator<VotingSessionForm> {
+public class VotingSessionValidator extends GenericValidator implements EntityValidator<VotingSessionForm> {
 	
 	@Autowired
 	private AgendaRepository agendaRepository;
@@ -48,10 +49,10 @@ public class VotingSessionValidator implements EntityValidator<VotingSessionForm
 		if(agenda.isPresent()) {
 			Optional<VotingSession> session = this.votingSessionRepository.findByAgenda(agenda.get());
 			if (session.isPresent()) {
-				throw new VotingSessionAlreadyAssociatedException(String.format("Já existe uma sessão de votação associada à pauta de código %s", associatedAgendaCode));
+				throw new VotingSessionAlreadyAssociatedException(this.getMessageSource().getMessage("message.exception.session.already.associated.to.agenda", new String[] {associatedAgendaCode}, Locale.getDefault()));
 			}
 		}else {
-			throw new AgendaNotRegisteredException(String.format("A pauta de código %s precisa ser cadastrada previamente", associatedAgendaCode));
+			throw new AgendaNotRegisteredException(this.getMessageSource().getMessage("message.exception.session.without.registered.agenda", new String[] {associatedAgendaCode}, Locale.getDefault()));
 		}
 	}
 }

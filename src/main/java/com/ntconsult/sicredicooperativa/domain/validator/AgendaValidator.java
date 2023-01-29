@@ -1,5 +1,6 @@
 package com.ntconsult.sicredicooperativa.domain.validator;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import com.ntconsult.sicredicooperativa.domain.repository.AgendaRepository;
  *
  */
 @Component
-public class AgendaValidator implements EntityValidator<AgendaForm>{
+public class AgendaValidator extends GenericValidator implements EntityValidator<AgendaForm>{
 	
 	@Autowired
 	private AgendaRepository agendaRepository;
@@ -36,9 +37,8 @@ public class AgendaValidator implements EntityValidator<AgendaForm>{
 	 */
     private void validateExistingAgenda(AgendaForm agendaForm){
 		 Optional<Agenda> agenda = agendaRepository.findByCode(agendaForm.getCode());
-		 
 		 if(agenda.isPresent()) {
-			 throw new ExistingAgendaException(String.format("Já existe uma pauta cadastrada com o código %s", agendaForm.getCode()));
+			 throw new ExistingAgendaException(this.getMessageSource().getMessage("message.exception.agenda.alread.registered", new String[] {agendaForm.getCode()}, Locale.getDefault()));
 		 }
     }
 }

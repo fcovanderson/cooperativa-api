@@ -1,5 +1,6 @@
 package com.ntconsult.sicredicooperativa.domain.validator;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ import com.ntconsult.sicredicooperativa.domain.exception.VotingSessionNotRegiste
  *
  */
 @Component
-public class ClosingSessionValidator implements EntityValidator<Optional<VotingSession>>{
+public class ClosingSessionValidator extends GenericValidator implements EntityValidator<Optional<VotingSession>>{
 	
 	@Override
 	public void validate(Optional<VotingSession> votingSession) {
@@ -33,7 +34,7 @@ public class ClosingSessionValidator implements EntityValidator<Optional<VotingS
 	 */
 	public void validateExistingSession(Optional<VotingSession> votingSession) {
 		if(votingSession.isEmpty()) {
-			throw new VotingSessionNotRegisteredException("A sessão de votação informada ainda não foi aberta");
+			throw new VotingSessionNotRegisteredException(this.getMessageSource().getMessage("message.exception.session.not.registered", null, Locale.getDefault()));
 		}
 	}
 	
@@ -44,7 +45,7 @@ public class ClosingSessionValidator implements EntityValidator<Optional<VotingS
 	 */
 	private void validateClosedSession(Optional<VotingSession> votingSession) {
 		if(votingSession.get().getVotingSessionStatus().equals(VotingSessionStatusEnum.CLOSED)) {
-			throw new VotingSessionAlreadyClosedException(String.format("A sessão de votação %s já foi encerrada anteriormente", votingSession.get().getSessionCode()));
+			throw new VotingSessionAlreadyClosedException(this.getMessageSource().getMessage("message.exception.session.already.closed", new String[] {votingSession.get().getSessionCode()}, Locale.getDefault()));
 		}
 	}
 }

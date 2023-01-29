@@ -1,5 +1,6 @@
 package com.ntconsult.sicredicooperativa.domain.validator;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ import com.ntconsult.sicredicooperativa.domain.exception.VotingSessionNotRegiste
  *
  */
 @Component
-public class AccountingVotesValidator implements EntityValidator<Optional<VotingSession>>{
+public class AccountingVotesValidator extends GenericValidator implements EntityValidator<Optional<VotingSession>>{
 	
 	@Autowired
 	private ClosingSessionValidator closingSessionValidator;
@@ -45,7 +46,7 @@ public class AccountingVotesValidator implements EntityValidator<Optional<Voting
 	 */
 	private void validadeCountedVotes(Optional<VotingSession> sessaoDeVotacao){
 		if(Objects.nonNull(sessaoDeVotacao.get().getAgenda().getStatus())) {
-			throw new VotesAlreadyCountedException(String.format("Os votos para a sessão de votação %s já foram contabilizados", sessaoDeVotacao.get().getSessionCode()));
+			throw new VotesAlreadyCountedException(this.getMessageSource().getMessage("message.exception.session.votes.alread.counted", new Object[] {sessaoDeVotacao.get().getSessionCode()}, Locale.getDefault()));
 		}
 	}
 	
@@ -57,7 +58,7 @@ public class AccountingVotesValidator implements EntityValidator<Optional<Voting
 	 */
 	private void validateUnclosedSession(Optional<VotingSession> sessaoDeVotacao) {
 		if(sessaoDeVotacao.get().getVotingSessionStatus().equals(VotingSessionStatusEnum.OPEN)) {
-			throw new OpenVotingSessionException(String.format("A sessão de votação %s ainda está em aberto", sessaoDeVotacao.get().getSessionCode()));
+			throw new OpenVotingSessionException(this.getMessageSource().getMessage("message.exception.session.open", new Object[] {sessaoDeVotacao.get().getSessionCode()}, Locale.getDefault()));
 		}
 	}
 }

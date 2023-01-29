@@ -1,6 +1,7 @@
 package com.ntconsult.sicredicooperativa.domain.validator;
 
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +27,7 @@ import com.ntconsult.sicredicooperativa.domain.repository.VoteRepository;
  *
  */
 @Component
-public class VoteValidator implements EntityValidator<VoteForm>{
+public class VoteValidator extends GenericValidator implements EntityValidator<VoteForm>{
 	
 	@Autowired
 	private VotingSessionRepository votingSessionRepository;
@@ -57,10 +58,10 @@ public class VoteValidator implements EntityValidator<VoteForm>{
 			if(diffInMinutes > votingSession.get().getClosingDeadlineInMinutes()) {
 				votingSession.get().setVotingSessionStatus(VotingSessionStatusEnum.CLOSED);
 				this.votingSessionRepository.save(votingSession.get());
-				throw new ClosedVotingSessionException("A sessão se encontra encerrada para votação");
+				throw new ClosedVotingSessionException(this.getMessageSource().getMessage("message.exception.session.closed.to.voting", null, Locale.getDefault()));
 			}
 		}else {
-			throw new VotingSessionNotRegisteredException("A sessão de votação informada ainda não foi aberta");
+			throw new VotingSessionNotRegisteredException(this.getMessageSource().getMessage("message.exception.session.not.registered", null, Locale.getDefault()));
 		}
 	}
 	
@@ -74,7 +75,7 @@ public class VoteValidator implements EntityValidator<VoteForm>{
 	private void validateComputedVote(String memberCode, Optional<VotingSession> votingSession) {
 		Optional<Vote> vote = this.voteRepository.findByMemberCodeAndVotingSession(memberCode, votingSession.get());
 		if(vote.isPresent()) {
-			throw new ComputedVoteException(String.format("O associado %s já realizou votação para a sessão %s", memberCode, votingSession.get().getSessionCode()));
+			throw new ComputedVoteException(this.getMessageSource().getMessage("message.exception.vote.already.computed", new String[] {memberCode, votingSession.get().getSessionCode()}, Locale.getDefault()));
 		}
 	}
 }
