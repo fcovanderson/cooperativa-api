@@ -28,7 +28,13 @@ import lombok.Setter;
  * 
  * @author vanderson
  * 
- * Classe que representa a entidade Sessão de Votação
+ * Classe que representa a entidade Sessão de Votação com as informações de:
+ * 
+ *    Código da sessão (considera-se que deve conter exatamente 6 caracteres)
+ *    Pauta associada (considera-se que uma Sessão pode estar associada à apenas 1 Pauta e uma Pauta deve estar associada a apenas uma Sessão), 
+ *    Data (timestamp) de abertura da sessão 
+ *    Prazo de fechamento em minutos (1 minuto por default)
+ *    Status da sessão (ABERTA ou FECHADA). O status é determinado como ABERTO na criação da sessão e pode ser atualizado quando é requisitado o fechamento da sessão ou quando há tentativa de voto para uma sessão com prazo expirado 
  *
  */
 @Getter

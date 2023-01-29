@@ -13,6 +13,13 @@ import com.ntconsult.sicredicooperativa.domain.exception.VotingSessionAlreadyAss
 import com.ntconsult.sicredicooperativa.domain.repository.AgendaRepository;
 import com.ntconsult.sicredicooperativa.domain.repository.VotingSessionRepository;
 
+/**
+ * 
+ * @author vanderson 
+ * 
+ * Classe reponsável por realizar as validações necessárias antes de registrar uma nova sessão de votação
+ *
+ */
 @Component
 public class VotingSessionValidator implements EntityValidator<VotingSessionForm> {
 	
@@ -22,12 +29,19 @@ public class VotingSessionValidator implements EntityValidator<VotingSessionForm
 	@Autowired
 	private VotingSessionRepository votingSessionRepository;
 	
-	
 	@Override
 	public void validate(VotingSessionForm votingSessionForm) {
 		this.validateAssociatedSessionToAgenda(votingSessionForm.getAgendaCode());
 	}
 
+	/**
+	 * 
+	 * @param associatedAgendaCode Código da pauta associada a sessão a ser aberta
+	 * 
+	 * Caso já exista uma sessão (aberta ou fechada) associada à pauta informada é lançada a exceção {@link VotingSessionAlreadyAssociatedException}
+	 * 
+	 * Caso a pauta informada não tenha sido cadastrada antes, é lançada a exceção {@link AgendaNotRegisteredException}
+	 */
 	private void validateAssociatedSessionToAgenda(String associatedAgendaCode) {
 		Optional<Agenda> agenda = this.agendaRepository.findByCode(associatedAgendaCode);
 		

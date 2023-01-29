@@ -8,6 +8,14 @@ import org.springframework.stereotype.Repository;
 import com.ntconsult.sicredicooperativa.domain.entity.Agenda;
 import com.ntconsult.sicredicooperativa.domain.entity.VotingSession;
 
+
+/**
+ * 
+ * @author vanderson
+ * 
+ * Classe gerenciada pelo framework spring e responsável por executar as operações em banco de dados para a entidade VotingSession
+ *
+ */
 @Repository
 public interface VotingSessionRepository extends JpaRepository<VotingSession, Long>{
 	

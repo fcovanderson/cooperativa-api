@@ -18,6 +18,14 @@ import com.ntconsult.sicredicooperativa.domain.validator.AccountingVotesValidato
 import com.ntconsult.sicredicooperativa.domain.validator.ClosingSessionValidator;
 import com.ntconsult.sicredicooperativa.domain.validator.VotingSessionValidator;
 
+/**
+ * 
+ * @author vanderson
+ * 
+ * Classe gerenciada pelo framework spring e responsável a 'interface' de comunicação entre o controller e a repository a entidade VotingSession
+ *	
+ * Realiza todas as regras de validação antes que as informações sejam persistidas na base. Caso alguma validação não seja satisfeita é lançada uma exceção e o processo de persistência não prossegue
+ */
 @Service
 public class VotingSessionService implements GenericService<VotingSessionForm, VotingSession>{
 	

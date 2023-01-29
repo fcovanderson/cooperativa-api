@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
  * 
  * Classe responsável por capturar as exceções lançadas e apresentar o erro de forma padronizada como retorno da requisição de recursos
  *
+ * Cada método anotado com @ExceptionHandler representa um tipo de exceção capturada
  */
 @ControllerAdvice
 public class ResourceExceptionHandler {

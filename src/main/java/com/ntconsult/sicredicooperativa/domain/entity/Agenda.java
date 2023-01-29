@@ -19,8 +19,12 @@ import lombok.Setter;
  * 
  * @author vanderson
  * 
- * Classe que representa a entidade Pauta
- *
+ * Classe que representa a entidade Pauta com as informações de:
+ *   
+ *   Código (considera-se que deve conter exatamente 6 caracteres), 
+ *   Descrição (campo de texto aberto)
+ *   Status (APROVADA OU REPROVADA). O campo é definido/atualizado quando há a requisição de contabilizar votos para a sessão associada.
+ * 
  */
 @Getter
 @Setter

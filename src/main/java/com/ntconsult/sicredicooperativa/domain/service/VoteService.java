@@ -10,6 +10,15 @@ import com.ntconsult.sicredicooperativa.domain.repository.VotingSessionRepositor
 import com.ntconsult.sicredicooperativa.domain.repository.VoteRepository;
 import com.ntconsult.sicredicooperativa.domain.validator.VoteValidator;
 
+
+/**
+ * 
+ * @author vanderson
+ * 
+ * Classe gerenciada pelo framework spring e responsável a 'interface' de comunicação entre o controller e a repository a entidade Vote
+ *	
+ * Realiza todas as regras de validação antes que as informações sejam persistidas na base. Caso alguma validação não seja satisfeita é lançada uma exceção e o processo de persistência não prossegue
+ */
 @Service
 public class VoteService implements GenericService<VoteForm, Vote>{
 	

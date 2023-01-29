@@ -22,7 +22,11 @@ import lombok.Setter;
  * 
  * @author vanderson
  *
- * Classe que representa a entidade Voto
+ * Classe que representa a entidade Voto com as informações de:
+ *   
+ *   Código do associado realizou o voto (considera-se apenas o código do associado. Dessa forma, não há um relacionamento com outra entidade que represente um associado), 
+ *   Voto (SIM ou NAO)
+ *   Sessão a qual está associado  
  */
 @Entity
 @Getter
