@@ -2,16 +2,18 @@ package com.ntconsult.sicredicooperativa.domain.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.ntconsult.sicredicooperativa.domain.enums.AgendaStatusEnum;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +25,7 @@ import lombok.Setter;
  *   
  *   Código (considera-se que deve conter exatamente 6 caracteres), 
  *   Descrição (campo de texto aberto)
- *   Status (APROVADA OU REPROVADA). O campo é definido/atualizado quando há a requisição de contabilizar votos para a sessão associada.
+ *   Status (APPROVED OU REJECTED). O campo é definido/atualizado quando há a requisição de contabilizar votos para a sessão associada.
  * 
  */
 @Getter
